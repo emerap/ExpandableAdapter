@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CompanyModelView extends ModelView<Profile> {
 
+    @SuppressWarnings("unused")
     public CompanyModelView(List<Profile> data) {
         super(data);
     }
@@ -22,17 +23,27 @@ public class CompanyModelView extends ModelView<Profile> {
     }
 
     @Override
+    public String getFieldGroupIdValue(Profile item) {
+        return item.id;
+    }
+
+    @Override
     public String getItemFieldValue(Profile item) {
         return item.name;
     }
 
     @Override
-    public void sort(List<Profile> data) {
+    public void sortItem(List<Profile> data) {
         Collections.sort(data, new Comparator<Profile>() {
             @Override
             public int compare(Profile o1, Profile o2) {
                 return (o1.name + o1.company).compareTo((o2.name + o2.company));
             }
         });
+    }
+
+    @Override
+    public void sortGroup(List<Profile> data) {
+
     }
 }

@@ -25,12 +25,27 @@ public class GenderModelView extends ModelView<Profile> {
     }
 
     @Override
+    public String getFieldGroupIdValue(Profile item) {
+        return item.id;
+    }
+
+    @Override
     public @NonNull String getItemFieldValue(Profile item) {
         return item.name;
     }
 
     @Override
-    public void sort(List<Profile> data) {
+    public void sortItem(List<Profile> data) {
+        Collections.sort(data, new Comparator<Profile>() {
+            @Override
+            public int compare(Profile o1, Profile o2) {
+                return (o1.company).compareTo((o2.company));
+            }
+        });
+    }
+
+    @Override
+    public void sortGroup(List<Profile> data) {
         Collections.sort(data, new Comparator<Profile>() {
             @Override
             public int compare(Profile o1, Profile o2) {

@@ -12,13 +12,30 @@ import java.util.List;
 abstract public class Section<O> implements SectionInterface<O> {
 
     private String mTitle;
+    private String mSectionId;
     private O mObject;
     private Boolean mExpanded = false;
     private List<ItemInterface> mItems = new ArrayList<>();
 
+    @SuppressWarnings("unused")
     public Section(String title, O object) {
+        this(title, title.replaceAll(" ", "_").toLowerCase(), object);
+    }
+
+    public Section(String title, String sectionId, O object){
         mTitle = title;
         mObject =  object;
+        mSectionId = sectionId;
+    }
+
+    @Override
+    public List<ItemInterface> getItems() {
+        return mItems;
+    }
+
+    @Override
+    public String getSectionId() {
+        return mSectionId;
     }
 
     public void addItem(ItemInterface item){

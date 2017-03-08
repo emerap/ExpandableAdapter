@@ -11,23 +11,26 @@ import java.util.List;
 
 interface ModelViewInterface<T> {
     String getGroupKeyValue(T item);
+    String getFieldGroupIdValue(T item);
     String getItemFieldValue(T item);
-    void sort(List<T> data);
+
+    void sortItem(List<T> data);
+    void sortGroup(List<T> data);
 }
 
-public abstract class ModelView<T> implements ModelViewInterface<T>{
+public abstract class ModelView<T> implements ModelViewInterface<T> {
 
     private List<T> mDataList;
-    private HashMap<String, List<T>> mGroupMap = new HashMap<>();
+    final private HashMap<String, GroupItem> mGroupMap = new HashMap<>();
 
     public ModelView(List<T> data) {
         mDataList = data;
-        sort(mDataList);
+        sortGroup(mDataList);
         createGroups();
     }
 
     @SuppressWarnings("unused")
-    public HashMap<String, List<T>> getGroupMap(){
+    public HashMap<String, GroupItem> getGroupMap() {
         return mGroupMap;
     }
 
@@ -35,11 +38,11 @@ public abstract class ModelView<T> implements ModelViewInterface<T>{
 
         List<SectionInterface> sections = new ArrayList<>();
 
-        for (String key: mGroupMap.keySet()) {
-            List<T> items = mGroupMap.get(key);
-            SectionModel section = new SectionModel(key, null);
+        for (String key : mGroupMap.keySet()) {
+            GroupItem groupItem = mGroupMap.get(key);
+            SectionModel section = new SectionModel(key, groupItem.getSectionId(), null);
             sections.add(section);
-            for (T item : items) {
+            for (T item : groupItem.getItems()) {
                 section.addItem(new ItemModel(getItemFieldValue(item), item));
             }
         }
@@ -48,10 +51,12 @@ public abstract class ModelView<T> implements ModelViewInterface<T>{
     }
 
     private void createGroups() {
-        for ( T item : mDataList) {
+        for (T item : mDataList) {
             String key = getGroupKeyValue(item);
-            if (mGroupMap.get(key) == null) mGroupMap.put(key, new ArrayList<T>());
-            List<T> list = mGroupMap.get(key);
+            String groupId = getFieldGroupIdValue(item);
+            if (mGroupMap.get(key) == null) mGroupMap.put(key, new GroupItem(groupId));
+            List<T> list = mGroupMap.get(key).getItems();
+            sortItem(list);
             list.add(item);
         }
     }
@@ -59,8 +64,8 @@ public abstract class ModelView<T> implements ModelViewInterface<T>{
     @SuppressWarnings("WeakerAccess")
     private class SectionModel extends Section<String> {
 
-        public SectionModel(String title, String object) {
-            super(title, object);
+        public SectionModel(String title, String sectionId, String object) {
+            super(title,sectionId, object);
         }
     }
 
@@ -69,6 +74,24 @@ public abstract class ModelView<T> implements ModelViewInterface<T>{
 
         public ItemModel(String title, T object) {
             super(title, object);
+        }
+    }
+
+    private class GroupItem {
+
+        private String mSectionId;
+        final private List<T> mItems = new ArrayList<>();
+
+        GroupItem(String sectionId) {
+            mSectionId = sectionId;
+        }
+
+        List<T> getItems() {
+            return mItems;
+        }
+
+        public String getSectionId() {
+            return mSectionId;
         }
     }
 }

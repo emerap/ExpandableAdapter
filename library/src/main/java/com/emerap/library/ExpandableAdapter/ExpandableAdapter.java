@@ -16,11 +16,6 @@ interface ExpandableInterface {
     void onBindSection(ExpandableViewHolder holder, SectionInterface section);
 
     void onBindItem(ExpandableViewHolder holder, String title, ItemInterface item);
-
-    void onLoadListState(List<SectionInterface> sections);
-
-    void onSaveListState(List<SectionInterface> sections);
-
 }
 
 public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableViewHolder> implements ExpandableInterface {
@@ -35,7 +30,7 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     private List<SectionInterface> mSections = new ArrayList<>();
     private int mToggleMode = TOGGLE_MODE_FREE;
-    private boolean mSaveFoldingState = true;
+    private StateConfig mStateConfig;
 
     @Override
     public int getItemViewType(int position) {
@@ -67,8 +62,12 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
                         if (mToggleMode == TOGGLE_MODE_ACCORDION) {
                             foldSections(false);
                             if (section.isExpanded()) expand = false;
+
                         }
                         section.setExpanded(expand);
+                        if (mStateConfig != null && mStateConfig.getSavedFoldingState()) {
+                            mStateConfig.onSaveState(section);
+                        }
                         notifyDataSetChanged();
 
                     }
@@ -96,8 +95,10 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     /**
      * Add sections.
+     *
      * @param sections list sections
      */
+    @SuppressWarnings("unused")
     public void addSections(SectionInterface... sections) {
         for (SectionInterface section : sections) {
             addSection(section);
@@ -140,7 +141,9 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
         fold = ((mSections.size() - expandedCount) < expandedCount);
         foldSections(!fold);
         notifyDataSetChanged();
-        onSaveListState(mSections);
+        if (mStateConfig != null) {
+            mStateConfig.onSaveState(mSections);
+        }
     }
 
     private void foldSections(Boolean fold) {
@@ -155,12 +158,11 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
         return this;
     }
 
-    @SuppressWarnings("unused")
-    public void setSaveFoldingState(boolean saveFoldingState) {
-        mSaveFoldingState = saveFoldingState;
-    }
-
-    public void init() {
-        if (mSaveFoldingState) onLoadListState(mSections);
+    public void setStateConfig(StateConfig stateConfig) {
+        mStateConfig = stateConfig;
+        if (mStateConfig.getSavedFoldingState()) {
+            mStateConfig.onLoadFromStorageState();
+            mStateConfig.onLoadState(mSections);
+        }
     }
 }

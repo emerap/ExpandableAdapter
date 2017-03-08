@@ -1,5 +1,7 @@
 package com.emerap.library.ExpandableAdapter;
 
+import java.util.List;
+
 /**
  * SectionInterface.
  * Created by karbunkul on 02.02.17.
@@ -13,9 +15,13 @@ public interface SectionInterface<O> {
 
     String getTitle();
 
+    String getSectionId();
+
     Boolean isExpanded();
 
     void setExpanded(Boolean expanded);
+
+    List<ItemInterface> getItems();
 
     int getItemsCount();
 

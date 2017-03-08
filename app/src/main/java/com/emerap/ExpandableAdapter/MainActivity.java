@@ -19,6 +19,7 @@ import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
 import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
 import com.emerap.library.ExpandableAdapter.ItemInterface;
 import com.emerap.library.ExpandableAdapter.SectionInterface;
+import com.emerap.library.ExpandableAdapter.SharedStateConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -87,16 +88,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 viewHolder.mTextView.setText(item.getTitle());
             }
 
-            @Override
-            public void onSaveListState(List<SectionInterface> sections) {
-
-            }
-
-            @Override
-            public void onLoadListState(List<SectionInterface> sections) {
-
-            }
-
             class SectionViewHolder extends ExpandableViewHolder {
 
                 TextView mTextView;
@@ -123,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         };
 
         setupAdapter();
-        mAdapter.init();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -134,7 +124,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void setupAdapter() {
         GenderModelView modelView = new GenderModelView(mProfiles);
+        SharedStateConfig config = new SharedStateConfig(getApplicationContext(), "profile_list");
         mAdapter.addSections(modelView.createModelView());
+        mAdapter.setStateConfig(config);
+
     }
 
     @Override
