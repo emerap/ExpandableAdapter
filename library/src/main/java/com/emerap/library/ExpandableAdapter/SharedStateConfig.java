@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * SharedStateConfig
  * Created by karbunkul on 08.03.17.
  */
 
@@ -20,6 +21,7 @@ public class SharedStateConfig extends StateConfig {
         this(context, stateId, "expandable_adapter");
     }
 
+    @SuppressWarnings("WeakerAccess")
     public SharedStateConfig(Context context, String stateId, String fileName) {
         mSharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         mStateId = stateId;

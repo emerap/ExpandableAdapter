@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
     android:orientation="horizontal">
 
     <TextView
-        android:layout_margin="16dp"
         android:id="@+id/item_caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:paddingLeft="40dp"
         android:paddingRight="16dp"
-        android:text="Item text"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        tools:text="Lorem ipsum dolor sit amet, consectetur" />
 
 </LinearLayout>

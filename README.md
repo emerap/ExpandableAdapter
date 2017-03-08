@@ -1,0 +1,73 @@
+# ExpandableAdapter
+Customizable adapter for RecyclerView
+
+[ ![Download](https://api.bintray.com/packages/emerap/android/expandable-adapter/images/download.svg) ](https://bintray.com/emerap/android/expandable-adapter/_latestVersion)
+
+## Setup
+
+### Gradle
+```
+compile 'com.github.emerap:expandable-adapter:0.0.1'
+```
+### Maven
+```
+<dependency>
+  <groupId>com.github.emerap</groupId>
+  <artifactId>expandable-adapter</artifactId>
+  <version>0.0.1</version>
+  <type>pom</type>
+</dependency>
+```
+### Ivy
+```
+<dependency org='com.github.emerap' name='expandable-adapter' rev='0.0.1'>
+  <artifact name='expandable-adapter' ext='pom' ></artifact>
+</dependency>
+```
+## Features
+- Interface `StateConfig` for saving and restore items state.
+- Get and set any object to `Section` and `Item` from via them interfaces.
+- Create Model view from list of object (any types).
+
+## Examples
+
+### Customize adapter
+
+- Implement onCreateViewHolder.
+- Bind your data to UI.
+
+```
+import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
+import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
+import com.emerap.library.ExpandableAdapter.ItemInterface;
+import com.emerap.library.ExpandableAdapter.SectionInterface;
+
+public class CustomAdapter extends ExpandableAdapter {
+    @Override
+    public ExpandableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_SECTION: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_section, parent, false);
+                return new SectionViewHolder(view);
+            }
+            case TYPE_ITEM: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_item, parent, false);
+                return new ItemViewHolder(view);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindSection(ExpandableViewHolder holder, SectionInterface section) {
+
+    }
+
+    @Override
+    public void onBindItem(ExpandableViewHolder holder, String title, ItemInterface item) {
+
+    }
+}
+```
+
+See MainActivity.java from app module

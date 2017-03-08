@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         GenderModelView modelView = new GenderModelView(mProfiles);
         SharedStateConfig config = new SharedStateConfig(getApplicationContext(), "profile_list");
         mAdapter.addSections(modelView.createModelView());
+//        mAdapter.clearSections();
         mAdapter.setStateConfig(config);
 
     }
