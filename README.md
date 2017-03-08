@@ -1,7 +1,10 @@
 # ExpandableAdapter
 Customizable adapter for RecyclerView
 
+
 [ ![Download](https://api.bintray.com/packages/emerap/android/expandable-adapter/images/download.svg) ](https://bintray.com/emerap/android/expandable-adapter/_latestVersion)
+[![API](https://img.shields.io/badge/API-15%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=15)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ExpandableAdapter-blue.svg?style=flat)](https://android-arsenal.com/details/1/5427)
 
 ## Setup
 
@@ -20,7 +23,7 @@ compile 'com.github.emerap:expandable-adapter:0.0.1'
 ```
 ### Ivy
 ```
-<dependency org='com.github.emerap' name='expandable-adapter' rev='0.0.1'>
+<dependency org='com.github.emerap' name='expandable-adapter' rev='0.0.2'>
   <artifact name='expandable-adapter' ext='pom' ></artifact>
 </dependency>
 ```
