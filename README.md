@@ -10,7 +10,7 @@ Customizable adapter for RecyclerView
 
 ### Gradle
 ```
-compile 'com.github.emerap:expandable-adapter:0.0.1'
+compile 'com.github.emerap:expandable-adapter:0.0.2'
 ```
 ### Maven
 ```
