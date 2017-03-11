@@ -2,6 +2,7 @@ package com.emerap.library.ExpandableAdapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,10 @@ interface ExpandableInterface {
 
     void onBindSection(ExpandableViewHolder holder, SectionInterface section);
 
-    void onBindItem(ExpandableViewHolder holder, String title, ItemInterface item);
+    void onBindItem(ExpandableViewHolder holder, ItemInterface item);
+
+    ExpandableViewHolder getSectionViewHolder(ViewGroup parent);
+    ExpandableViewHolder getItemViewHolder(ViewGroup parent);
 }
 
 public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableViewHolder> implements ExpandableInterface {
@@ -48,6 +52,18 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
         return 0;
     }
 
+    public ExpandableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_SECTION: {
+                return getSectionViewHolder(parent);
+            }
+            case TYPE_ITEM: {
+                return getItemViewHolder(parent);
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onBindViewHolder(ExpandableViewHolder holder, int position) {
         int count = 0;
@@ -76,7 +92,7 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
                 break;
             } else if (expand && (position < count + section.getItemsCount() + 1)) {
                 ItemInterface item = section.getItem(position - count - 1);
-                onBindItem(holder, item.getTitle(), item);
+                onBindItem(holder, item);
                 break;
             }
             count = (expand) ? count + section.getItemsCount() + 1 : count + 1;

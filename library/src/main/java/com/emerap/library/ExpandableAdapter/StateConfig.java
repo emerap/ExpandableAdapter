@@ -30,6 +30,7 @@ interface StateConfigInterface {
 public abstract class StateConfig implements StateConfigInterface {
 
     protected HashMap<String, Boolean> mStates = new HashMap<>();
+    private String mPostfix = "";
 
     @Override
     public void onLoadState(List<SectionInterface> sections) {
@@ -57,5 +58,9 @@ public abstract class StateConfig implements StateConfigInterface {
         for (SectionInterface section : sections) {
             mStates.put(section.getSectionId(), section.isExpanded());
         }
+    }
+
+    public void setPostfix(String postfix) {
+        mPostfix = postfix;
     }
 }
