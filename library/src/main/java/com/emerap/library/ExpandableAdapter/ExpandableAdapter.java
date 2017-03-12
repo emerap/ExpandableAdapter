@@ -19,6 +19,7 @@ interface ExpandableInterface {
     void onBindItem(ExpandableViewHolder holder, ItemInterface item);
 
     ExpandableViewHolder getSectionViewHolder(ViewGroup parent);
+
     ExpandableViewHolder getItemViewHolder(ViewGroup parent);
 }
 
@@ -35,6 +36,7 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
     private List<SectionInterface> mSections = new ArrayList<>();
     private int mToggleMode = TOGGLE_MODE_FREE;
     private StateConfig mStateConfig;
+    private ModelSwitchInterface mModelSwitch;
 
     @Override
     public int getItemViewType(int position) {
@@ -176,9 +178,41 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     public void setStateConfig(StateConfig stateConfig) {
         mStateConfig = stateConfig;
-        if (mStateConfig.getSavedFoldingState()) {
+        if (mStateConfig.getSavedFoldingState() && mSections.size() > 0) {
             mStateConfig.onLoadFromStorageState();
             mStateConfig.onLoadState(mSections);
+        }
+    }
+
+    public void setModelSwitch(ModelSwitch modelSwitch) {
+        mModelSwitch = modelSwitch;
+    }
+
+    public boolean switchModel(String key) {
+        if (mModelSwitch != null && mModelSwitch.getModels().size() > 0) {
+            if (mModelSwitch.getModels().containsKey(key)) {
+                ModelSwitch.Model model = (ModelSwitch.Model) mModelSwitch.getModels().get(key);
+                ModelView modelView = model.getModelView();
+                modelView.setData(mModelSwitch.getData());
+                List<SectionInterface> sections = modelView.createModelView();
+                if (sections.size() > 0) {
+                    clearSections();
+                    if (mStateConfig != null) mStateConfig.setPostfix(key);
+                    addSections(sections, true);
+
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void addSections(List<SectionInterface> sections, boolean loadState) {
+        addSections(sections);
+        if (loadState && mStateConfig != null) {
+            mStateConfig.onLoadState(sections);
+
         }
     }
 }

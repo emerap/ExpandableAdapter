@@ -12,11 +12,6 @@ import java.util.List;
 
 public class CompanyModelView extends ModelView<Profile> {
 
-    @SuppressWarnings("unused")
-    public CompanyModelView(List<Profile> data) {
-        super(data);
-    }
-
     @Override
     public String getGroupKeyValue(Profile item) {
         return item.company;

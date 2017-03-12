@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
 import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
 import com.emerap.library.ExpandableAdapter.ItemInterface;
+import com.emerap.library.ExpandableAdapter.ModelSwitch;
 import com.emerap.library.ExpandableAdapter.SectionInterface;
 import com.emerap.library.ExpandableAdapter.SharedStateConfig;
 import com.google.gson.Gson;
@@ -120,11 +121,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void setupAdapter() {
-        GenderModelView modelView = new GenderModelView(mProfiles);
         SharedStateConfig config = new SharedStateConfig(getApplicationContext(), "profile_list");
-        mAdapter.addSections(modelView.createModelView());
-//        mAdapter.clearSections();
         mAdapter.setStateConfig(config);
+        ModelSwitch modelSwitch = new ModelSwitch(mProfiles);
+
+        modelSwitch.add("gender", "Gender", new GenderModelView());
+        modelSwitch.add("company", "Company", new CompanyModelView());
+
+        mAdapter.setModelSwitch(modelSwitch);
+        mAdapter.switchModel("company");
 
     }
 

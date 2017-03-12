@@ -15,7 +15,7 @@ import java.util.List;
 public class SharedStateConfig extends StateConfig {
 
     private SharedPreferences mSharedPreferences;
-    private String mStateId;
+
 
     public SharedStateConfig(Context context, String stateId) {
         this(context, stateId, "expandable_adapter");
@@ -23,6 +23,7 @@ public class SharedStateConfig extends StateConfig {
 
     @SuppressWarnings("WeakerAccess")
     public SharedStateConfig(Context context, String stateId, String fileName) {
+        super(stateId);
         mSharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         mStateId = stateId;
     }
@@ -50,11 +51,6 @@ public class SharedStateConfig extends StateConfig {
     @Override
     public boolean getSavedFoldingState() {
         return true;
-    }
-
-    @Override
-    public String getStateId() {
-        return mStateId;
     }
 
     private void setStringArray(String[] value, String delimiter) {

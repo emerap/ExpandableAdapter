@@ -15,10 +15,6 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public class GenderModelView extends ModelView<Profile> {
 
-    public GenderModelView(List<Profile> data) {
-        super(data);
-    }
-
     @Override
     public String getGroupKeyValue(Profile item) {
         return item.gender;

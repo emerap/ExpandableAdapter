@@ -29,6 +29,9 @@ public abstract class ModelView<T> implements ModelViewInterface<T> {
         createGroups();
     }
 
+    public ModelView() {
+    }
+
     @SuppressWarnings("unused")
     public HashMap<String, GroupItem> getGroupMap() {
         return mGroupMap;
@@ -59,6 +62,12 @@ public abstract class ModelView<T> implements ModelViewInterface<T> {
             sortItem(list);
             list.add(item);
         }
+    }
+
+    public void setData(List<T> dataList) {
+        mDataList = dataList;
+        sortGroup(mDataList);
+        createGroups();
     }
 
     @SuppressWarnings("WeakerAccess")
