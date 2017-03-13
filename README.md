@@ -31,6 +31,8 @@ compile 'com.github.emerap:expandable-adapter:0.0.2'
 - Interface `StateConfig` for saving and restore items state.
 - Get and set any object to `Section` and `Item` from via them interfaces.
 - Create Model view from list of object (any types).
+- Interface ModelSwitch for switch between ModelView objects.
+- Predefined SectionViewHolder with title, icon and count fields.
 
 ## Examples
 
@@ -46,20 +48,6 @@ import com.emerap.library.ExpandableAdapter.ItemInterface;
 import com.emerap.library.ExpandableAdapter.SectionInterface;
 
 public class CustomAdapter extends ExpandableAdapter {
-    @Override
-    public ExpandableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case TYPE_SECTION: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_section, parent, false);
-                return new SectionViewHolder(view);
-            }
-            case TYPE_ITEM: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_item, parent, false);
-                return new ItemViewHolder(view);
-            }
-        }
-        return null;
-    }
 
     @Override
     public void onBindSection(ExpandableViewHolder holder, SectionInterface section) {
@@ -69,6 +57,17 @@ public class CustomAdapter extends ExpandableAdapter {
     @Override
     public void onBindItem(ExpandableViewHolder holder, String title, ItemInterface item) {
 
+    }
+    
+    @Override
+    public ExpandableViewHolder getSectionViewHolder(ViewGroup parent) {
+        return DefaultSectionViewHolder.newInstance(parent);
+    }
+
+    @Override
+    public ExpandableViewHolder getItemViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_item, parent, false);
+        return new ItemViewHolder(view);
     }
 }
 ```

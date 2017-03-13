@@ -12,9 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.emerap.library.ExpandableAdapter.DefaultSectionViewHolder;
 import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
 import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
 import com.emerap.library.ExpandableAdapter.ItemInterface;
@@ -54,12 +54,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onBindSection(ExpandableViewHolder holder, SectionInterface section) {
-                SectionViewHolder viewHolder = (SectionViewHolder) holder;
-                viewHolder.mTextView.setText(section.getTitle());
-                viewHolder.mStatus.setText(String.format(Locale.getDefault(), "%d", section.getItemsCount()));
-
-                int iconId = (section.isExpanded()) ? R.drawable.ic_section_collapse : R.drawable.ic_section_expand;
-                viewHolder.mIcon.setImageResource(iconId);
+                DefaultSectionViewHolder viewHolder = (DefaultSectionViewHolder) holder;
+                viewHolder.title.setText(section.getTitle());
+                viewHolder.count.setText(String.format(Locale.getDefault(), "%d", section.getItemsCount()));
+                viewHolder.icon.setImageResource(viewHolder.getIconRes(section));
             }
 
             @Override
@@ -76,28 +74,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public ExpandableViewHolder getSectionViewHolder(ViewGroup parent) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_section, parent, false);
-                return new SectionViewHolder(view);
+                return DefaultSectionViewHolder.newInstance(parent);
             }
 
             @Override
             public ExpandableViewHolder getItemViewHolder(ViewGroup parent) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_item, parent, false);
                 return new ItemViewHolder(view);
-            }
-
-            class SectionViewHolder extends ExpandableViewHolder {
-
-                TextView mTextView;
-                TextView mStatus;
-                ImageView mIcon;
-
-                SectionViewHolder(View itemView) {
-                    super(itemView);
-                    mTextView = (TextView) itemView.findViewById(R.id.item_caption);
-                    mStatus = (TextView) itemView.findViewById(R.id.item_count);
-                    mIcon = (ImageView) itemView.findViewById(R.id.item_icon);
-                }
             }
 
             class ItemViewHolder extends ExpandableViewHolder {
