@@ -12,6 +12,8 @@ import android.widget.TextView;
  * Created by karbunkul on 13.03.17.
  */
 
+
+@SuppressWarnings("WeakerAccess")
 public class DefaultSectionViewHolder extends ExpandableViewHolder {
 
     public TextView title;

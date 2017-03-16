@@ -16,6 +16,7 @@ public class ModelSwitch<T> implements ModelSwitchInterface<T> {
     private HashMap<String, Model> mModels = new HashMap<>();
 
 
+
     public ModelSwitch(List<T> data) {
         mData = data;
     }

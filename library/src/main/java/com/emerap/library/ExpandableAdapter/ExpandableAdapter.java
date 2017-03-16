@@ -1,6 +1,7 @@
 package com.emerap.library.ExpandableAdapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,19 +19,23 @@ interface ExpandableInterface {
 
     void onBindItem(ExpandableViewHolder holder, ItemInterface item);
 
+    void onBindEmptyDataPlaceholder(ExpandableViewHolder holder);
+
     ExpandableViewHolder getSectionViewHolder(ViewGroup parent);
 
     ExpandableViewHolder getItemViewHolder(ViewGroup parent);
-}
 
+    ExpandableViewHolder getEmptyDataViewHolder(ViewGroup parent);
+}
+@SuppressWarnings("WeakerAccess")
 public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableViewHolder> implements ExpandableInterface {
 
     protected static final int TYPE_SECTION = 0;
     protected static final int TYPE_ITEM = 1;
+    protected static final int TYPE_EMPTY_DATA = 2;
 
-    @SuppressWarnings("WeakerAccess")
+
     public static final int TOGGLE_MODE_FREE = 0;
-    @SuppressWarnings("WeakerAccess")
     public static final int TOGGLE_MODE_ACCORDION = 1;
 
     private List<SectionInterface> mSections = new ArrayList<>();
@@ -40,6 +45,9 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     @Override
     public int getItemViewType(int position) {
+        if (mSections.isEmpty()) {
+            return TYPE_EMPTY_DATA;
+        }
         int count = 0;
         for (SectionInterface section : mSections) {
             Boolean expand = section.isExpanded();
@@ -56,6 +64,10 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     public ExpandableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
+            case TYPE_EMPTY_DATA: {
+                return getEmptyDataViewHolder(parent);
+            }
+
             case TYPE_SECTION: {
                 return getSectionViewHolder(parent);
             }
@@ -67,7 +79,19 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
     }
 
     @Override
+    public ExpandableViewHolder getEmptyDataViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandable_empty_data_placeholder, parent, false);
+        return new EmptyDataViewHolder(view);
+    }
+
+    @Override
     public void onBindViewHolder(ExpandableViewHolder holder, int position) {
+
+        if (mSections.isEmpty()) {
+            onBindEmptyDataPlaceholder(holder);
+            return;
+        }
+
         int count = 0;
         for (final SectionInterface section : mSections) {
             Boolean expand = section.isExpanded();
@@ -102,7 +126,18 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
     }
 
     @Override
+    public void onBindEmptyDataPlaceholder(ExpandableViewHolder holder) {
+        if (holder instanceof EmptyDataViewHolder) {
+            EmptyDataViewHolder viewHolder = (EmptyDataViewHolder) holder;
+            viewHolder.message.setText("List is empty");
+        }
+    }
+
+    @Override
     public int getItemCount() {
+
+        if (mSections.isEmpty()) return 1;
+
         int count = 0;
         for (SectionInterface section : mSections) {
             count++;
@@ -144,6 +179,11 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
      */
     public void clearSections() {
         mSections.clear();
+        notifyDataSetChanged();
+    }
+
+    public boolean isEmptyData() {
+        return mSections.isEmpty();
     }
 
     /**

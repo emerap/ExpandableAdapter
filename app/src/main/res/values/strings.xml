@@ -1,6 +1,3 @@
 <resources>
-    <string name="app_name">Expandable Recycler</string>
-
-    <string name="json">[{"_id":"58baf921c73b68512fb14874","name":"Logan Stanley","gender":"male","company":"ZILLAN","email":"loganstanley@zillan.com"},{"_id":"58baf92182b20ba39d8ee1c1","name":"Wood Witt","gender":"male","company":"OBONES","email":"woodwitt@obones.com"},{"_id":"58baf9214d97273813e55159","name":"Alicia Richards","gender":"female","company":"ECLIPSENT","email":"aliciarichards@eclipsent.com"},{"_id":"58baf92133262c4014955b89","name":"Felecia Petersen","gender":"female","company":"ORBALIX","email":"feleciapetersen@orbalix.com"},{"_id":"58baf921a946a263bbbb2937","name":"Rice Mays","gender":"male","company":"POOCHIES","email":"ricemays@poochies.com"}]</string>
-
+    <string name="app_name">Expandable Adapter</string>
 </resources>

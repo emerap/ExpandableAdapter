@@ -17,7 +17,7 @@ compile 'com.github.emerap:expandable-adapter:0.0.2'
 <dependency>
   <groupId>com.github.emerap</groupId>
   <artifactId>expandable-adapter</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -33,6 +33,8 @@ compile 'com.github.emerap:expandable-adapter:0.0.2'
 - Create Model view from list of object (any types).
 - Interface ModelSwitch for switch between ModelView objects.
 - Predefined SectionViewHolder with title, icon and count fields.
+- Empty data placeholder (override onBindEmptyDataPlaceholder and getEmptyDataViewHolder)
+- Predefined EmptyDataViewHolder with message and image fields.
 
 ## Examples
 

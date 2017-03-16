@@ -1,6 +1,7 @@
 package com.emerap.ExpandableAdapter;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.emerap.library.ExpandableAdapter.DefaultSectionViewHolder;
+import com.emerap.library.ExpandableAdapter.EmptyDataViewHolder;
 import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
 import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
 import com.emerap.library.ExpandableAdapter.ItemInterface;
@@ -73,6 +75,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
             @Override
+            public void onBindEmptyDataPlaceholder(ExpandableViewHolder holder) {
+                super.onBindEmptyDataPlaceholder(holder);
+                if (holder instanceof EmptyDataViewHolder) {
+                    EmptyDataViewHolder viewHolder = (EmptyDataViewHolder) holder;
+                    viewHolder.image.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher));
+                    viewHolder.message.setText("Empty data placeholder");
+                }
+            }
+
+            @Override
             public ExpandableViewHolder getSectionViewHolder(ViewGroup parent) {
                 return DefaultSectionViewHolder.newInstance(parent);
             }
@@ -112,14 +124,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         modelSwitch.add("company", "Company", new CompanyModelView());
 
         mAdapter.setModelSwitch(modelSwitch);
-        mAdapter.switchModel("company");
+        mAdapter.switchModel("gender");
 
     }
 
     @Override
     public void onRefresh() {
-        mAdapter.clearSections();
-        setupAdapter();
+        if (mAdapter.isEmptyData()) {
+            setupAdapter();
+        }else{
+            mAdapter.clearSections();
+        }
         mRefreshLayout.setRefreshing(false);
     }
 
