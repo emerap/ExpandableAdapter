@@ -27,6 +27,7 @@ interface ExpandableInterface {
 
     ExpandableViewHolder getEmptyDataViewHolder(ViewGroup parent);
 }
+
 @SuppressWarnings("WeakerAccess")
 public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableViewHolder> implements ExpandableInterface {
 
@@ -226,6 +227,14 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
 
     public void setModelSwitch(ModelSwitch modelSwitch) {
         mModelSwitch = modelSwitch;
+        String key = (mStateConfig != null) ? mStateConfig.getCurrentModelKey() : "";
+        if (!"".equals(key) && modelSwitch.getModels().containsKey(key)) {
+            key = mStateConfig.getCurrentModelKey();
+        } else {
+            key = (String) modelSwitch.getModels().keySet().iterator().next();
+        }
+
+        if (!"".equals(key)) switchModel(key);
     }
 
     public boolean switchModel(String key) {
@@ -237,7 +246,11 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
                 List<SectionInterface> sections = modelView.createModelView();
                 if (sections.size() > 0) {
                     clearSections();
-                    if (mStateConfig != null) mStateConfig.setPostfix(key);
+
+                    if (mStateConfig != null) {
+                        mStateConfig.setCurrentModelKey(key);
+                        mStateConfig.setPostfix(key);
+                    }
                     addSections(sections, true);
 
                     return true;
@@ -252,7 +265,6 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
         addSections(sections);
         if (loadState && mStateConfig != null) {
             mStateConfig.onLoadState(sections);
-
         }
     }
 }

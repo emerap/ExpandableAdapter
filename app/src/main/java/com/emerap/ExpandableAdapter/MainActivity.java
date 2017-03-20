@@ -2,6 +2,7 @@ package com.emerap.ExpandableAdapter;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.emerap.library.ExpandableAdapter.DefaultSectionViewHolder;
@@ -27,10 +31,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemSelectedListener {
 
     @SuppressWarnings("FieldCanBeLocal")
     private RecyclerView mRecyclerView;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ExpandableAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private List<Profile> mProfiles;
+    private Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +128,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         modelSwitch.add("gender", "Gender", new GenderModelView());
         modelSwitch.add("company", "Company", new CompanyModelView());
-
         mAdapter.setModelSwitch(modelSwitch);
-        mAdapter.switchModel("gender");
-
     }
 
     @Override
@@ -142,6 +145,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+
+        MenuItem item = menu.findItem(R.id.menu_model_switch);
+        if (item != null) {
+            mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+            String[] data = {"gender", "company"};
+            mSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data));
+
+            List<String> dan = Arrays.asList(data);
+
+//            mSpinner.setSelection(dan.contains(mAda));
+            mSpinner.setOnItemSelectedListener(this);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -153,5 +170,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        mAdapter.switchModel(mSpinner.getAdapter().getItem(position).toString().toLowerCase());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

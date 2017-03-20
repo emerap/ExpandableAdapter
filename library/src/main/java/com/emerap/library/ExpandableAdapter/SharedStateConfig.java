@@ -53,6 +53,16 @@ public class SharedStateConfig extends StateConfig {
         return true;
     }
 
+    @Override
+    public String getCurrentModelKey() {
+        return mSharedPreferences.getString(mStateId + "_current_model_key", "");
+    }
+
+    @Override
+    public void setCurrentModelKey(String key) {
+        mSharedPreferences.edit().putString(mStateId + "_current_model_key", key).apply();
+    }
+
     private void setStringArray(String[] value, String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (String aValue : value) {

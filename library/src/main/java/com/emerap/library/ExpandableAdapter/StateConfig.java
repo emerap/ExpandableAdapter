@@ -24,13 +24,18 @@ interface StateConfigInterface {
     boolean getSavedFoldingState();
 
     String getStateId();
+
+
+    String getCurrentModelKey();
+
+    void setCurrentModelKey(String key);
 }
 
 @SuppressWarnings("WeakerAccess")
 public abstract class StateConfig implements StateConfigInterface {
 
     protected HashMap<String, Boolean> mStates = new HashMap<>();
-    private String mPostfix = "";
+    protected String mPostfix = "";
     protected String mStateId;
 
     public StateConfig(String stateId) {

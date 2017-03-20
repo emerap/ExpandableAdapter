@@ -21,7 +21,7 @@ interface ModelViewInterface<T> {
 public abstract class ModelView<T> implements ModelViewInterface<T> {
 
     private List<T> mDataList;
-    final private HashMap<String, GroupItem> mGroupMap = new HashMap<>();
+    private HashMap<String, GroupItem> mGroupMap;
 
     public ModelView(List<T> data) {
         mDataList = data;
@@ -54,6 +54,7 @@ public abstract class ModelView<T> implements ModelViewInterface<T> {
     }
 
     private void createGroups() {
+        mGroupMap = new HashMap<>();
         for (T item : mDataList) {
             String key = getGroupKeyValue(item);
             String groupId = getFieldGroupIdValue(item);
@@ -65,7 +66,8 @@ public abstract class ModelView<T> implements ModelViewInterface<T> {
     }
 
     public void setData(List<T> dataList) {
-        mDataList = dataList;
+        mDataList = new ArrayList<>();
+        mDataList.addAll(dataList);
         sortGroup(mDataList);
         createGroups();
     }
