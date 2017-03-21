@@ -1,7 +1,5 @@
 package com.emerap.ExpandableAdapter;
 
-import android.support.annotation.NonNull;
-
 import com.emerap.library.ExpandableAdapter.ModelView;
 
 import java.util.Collections;
@@ -16,18 +14,10 @@ import java.util.List;
 public class GenderModelView extends ModelView<Profile> {
 
     @Override
-    public String getGroupKeyValue(Profile item) {
-        return item.gender;
-    }
-
-    @Override
-    public String getFieldGroupIdValue(Profile item) {
-        return item.id;
-    }
-
-    @Override
-    public @NonNull String getItemFieldValue(Profile item) {
-        return item.name;
+    public void fillFields(Profile item) {
+        setGroupId(item.id);
+        setGroupTitle(item.gender);
+        setItemTitle(item.name);
     }
 
     @Override

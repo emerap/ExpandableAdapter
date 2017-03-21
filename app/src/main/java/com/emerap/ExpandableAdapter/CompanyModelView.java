@@ -13,18 +13,10 @@ import java.util.List;
 public class CompanyModelView extends ModelView<Profile> {
 
     @Override
-    public String getGroupKeyValue(Profile item) {
-        return item.company;
-    }
-
-    @Override
-    public String getFieldGroupIdValue(Profile item) {
-        return item.id;
-    }
-
-    @Override
-    public String getItemFieldValue(Profile item) {
-        return item.name;
+    public void fillFields(Profile item) {
+        setGroupId(item.id);
+        setGroupTitle(item.company);
+        setItemTitle(item.name);
     }
 
     @Override

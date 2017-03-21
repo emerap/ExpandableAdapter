@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
-
         MenuItem item = menu.findItem(R.id.menu_model_switch);
         if (item != null) {
             mSpinner = (Spinner) MenuItemCompat.getActionView(item);
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             List<String> dan = Arrays.asList(data);
 
-//            mSpinner.setSelection(dan.contains(mAda));
+//            mSpinner.setSelection(dan.contains());
             mSpinner.setOnItemSelectedListener(this);
         }
 
