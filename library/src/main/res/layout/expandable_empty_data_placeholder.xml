@@ -26,7 +26,6 @@
             android:gravity="center"
             android:padding="16dp"
             android:textSize="14pt"
-            android:textAllCaps="true"
             tools:text="Empty list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

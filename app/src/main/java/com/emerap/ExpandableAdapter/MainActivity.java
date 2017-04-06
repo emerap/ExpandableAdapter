@@ -25,6 +25,7 @@ import com.emerap.library.ExpandableAdapter.ExpandableAdapter;
 import com.emerap.library.ExpandableAdapter.ExpandableViewHolder;
 import com.emerap.library.ExpandableAdapter.ItemInterface;
 import com.emerap.library.ExpandableAdapter.ModelSwitch;
+import com.emerap.library.ExpandableAdapter.Section;
 import com.emerap.library.ExpandableAdapter.SectionInterface;
 import com.emerap.library.ExpandableAdapter.SharedStateConfig;
 import com.google.gson.Gson;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 viewHolder.mTextView.setText(item.getTitle());
             }
 
+
             @Override
             public void onBindEmptyDataPlaceholder(ExpandableViewHolder holder) {
                 super.onBindEmptyDataPlaceholder(holder);
@@ -91,12 +93,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
             @Override
-            public ExpandableViewHolder getSectionViewHolder(ViewGroup parent) {
+            public ExpandableViewHolder getSectionViewHolder(ViewGroup parent, Class sectionClass) {
                 return DefaultSectionViewHolder.newInstance(parent);
             }
 
             @Override
-            public ExpandableViewHolder getItemViewHolder(ViewGroup parent) {
+            public ExpandableViewHolder getItemViewHolder(ViewGroup parent, Class itemClass) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expandeable_recycler_item, parent, false);
                 return new ItemViewHolder(view);
             }
@@ -129,6 +131,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         modelSwitch.add("gender", "Gender", new GenderModelView());
         modelSwitch.add("company", "Company", new CompanyModelView());
         mAdapter.setModelSwitch(modelSwitch);
+
+        class BolSec extends Section<Boolean> {
+
+            public BolSec(String title, Boolean object) {
+                super(title, object);
+            }
+        }
+
+        BolSec bolSec = new BolSec("bolsec", true);
+
+        mAdapter.addSections(bolSec);
     }
 
     @Override
@@ -173,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mAdapter.switchModel(mSpinner.getAdapter().getItem(position).toString().toLowerCase());
+        //mAdapter.switchModel(mSpinner.getAdapter().getItem(position).toString().toLowerCase());
     }
 
     @Override

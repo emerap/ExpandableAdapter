@@ -45,6 +45,6 @@ publish {
     artifactId = 'expandable-adapter'
     publishVersion = rootProject.ext.versionName
     licences = ['MIT']
-    desc = ''
+    desc = 'Customizable adapter for RecyclerView'
     website = 'https://github.com/emerap/ExpandableAdapter'
 }

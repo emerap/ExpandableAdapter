@@ -21,9 +21,9 @@ interface ExpandableInterface {
 
     void onBindEmptyDataPlaceholder(ExpandableViewHolder holder);
 
-    ExpandableViewHolder getSectionViewHolder(ViewGroup parent);
+    ExpandableViewHolder getSectionViewHolder(ViewGroup parent, Class sectionClass);
 
-    ExpandableViewHolder getItemViewHolder(ViewGroup parent);
+    ExpandableViewHolder getItemViewHolder(ViewGroup parent, Class itemClass);
 
     ExpandableViewHolder getEmptyDataViewHolder(ViewGroup parent);
 }
@@ -44,6 +44,8 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
     private StateConfig mStateConfig;
     private ModelSwitchInterface mModelSwitch;
 
+    private Class mCurrentItemClass;
+
     @Override
     public int getItemViewType(int position) {
         if (mSections.isEmpty()) {
@@ -54,8 +56,12 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
             Boolean expand = section.isExpanded();
 
             if (position == count) {
+                mCurrentItemClass = (section.getObject() != null) ? section.getObject().getClass() : null;
                 return TYPE_SECTION;
             } else if (expand && (position < count + section.getItemsCount() + 1)) {
+                int index = section.getItemsCount() - (count + section.getItemsCount() - position) - 1;
+                Item item = (Item) section.getItems().get(index);
+                mCurrentItemClass = (item.getObject() != null)? item.getObject().getClass() : null;
                 return TYPE_ITEM;
             }
             count = (expand) ? count + section.getItemsCount() + 1 : count + 1;
@@ -70,10 +76,10 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
             }
 
             case TYPE_SECTION: {
-                return getSectionViewHolder(parent);
+                return getSectionViewHolder(parent, mCurrentItemClass);
             }
             case TYPE_ITEM: {
-                return getItemViewHolder(parent);
+                return getItemViewHolder(parent, mCurrentItemClass);
             }
         }
         return null;
