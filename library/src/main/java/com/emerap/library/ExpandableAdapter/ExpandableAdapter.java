@@ -189,6 +189,14 @@ public abstract class ExpandableAdapter extends RecyclerView.Adapter<ExpandableV
         notifyDataSetChanged();
     }
 
+    /**
+     * Get sections.
+     * @return sections
+     */
+    public List<SectionInterface> getSections() {
+        return mSections;
+    }
+
     public boolean isEmptyData() {
         return mSections.isEmpty();
     }

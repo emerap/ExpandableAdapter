@@ -10,20 +10,20 @@ Customizable adapter for RecyclerView
 
 ### Gradle
 ```
-compile 'com.github.emerap:expandable-adapter:0.0.3'
+compile 'com.github.emerap:expandable-adapter:0.0.4'
 ```
 ### Maven
 ```
 <dependency>
   <groupId>com.github.emerap</groupId>
   <artifactId>expandable-adapter</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <type>pom</type>
 </dependency>
 ```
 ### Ivy
 ```
-<dependency org='com.github.emerap' name='expandable-adapter' rev='0.0.3'>
+<dependency org='com.github.emerap' name='expandable-adapter' rev='0.0.4'>
   <artifact name='expandable-adapter' ext='pom' ></artifact>
 </dependency>
 ```

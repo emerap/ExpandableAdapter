@@ -13,8 +13,8 @@ ext {
     compileSdkVersion = 25
     buildToolsVersion = "25.0.2"
     supportLibVersion = "25.2.0"
-    versionCode = 3
-    versionName = "0.0.3"
+    versionCode = 4
+    versionName = "0.0.4"
 }
 
 allprojects {
